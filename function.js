@@ -41,7 +41,12 @@ async function handleRequest(request) {
 
   if (pathname.startsWith('/radio')) {
     const radioUrl = new URL('radio.html', import.meta.url);
-    return await fetch(radioUrl);
+    const result = await fetch(radioUrl);
+    return new Response(result, {
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+      },
+    })
   }
 
   return new Response(
