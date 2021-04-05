@@ -1,5 +1,5 @@
 
-function handleRequest(request) {
+async function handleRequest(request) {
   const { pathname } = new URL(request.url);
 
   if (pathname.startsWith("/html")) {
@@ -39,7 +39,8 @@ function handleRequest(request) {
     });
   }
   const radioUrl = new URL('radio.html', import.meta.url);
-  return new Response(fetch(radioUrl),{
+  const result = await fetch(radioUrl);
+  return new Response(result,{
     headers: {
       "content-type": "text/html; charset=UTF-8",
     },
