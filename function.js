@@ -41,8 +41,8 @@ function handleRequest(request) {
   const radioUrl = new URL('radio.html', import.meta.url);
   try {
     const html = 'aaa';
-    const result = fetch(radioUrl);
-    return new Response(html + result + import.meta.url, {
+    // const result = fetch(radioUrl);
+    return new Response(html + import.meta.url, {
       headers: {
         "content-type": "text/html; charset=UTF-8",
       },
