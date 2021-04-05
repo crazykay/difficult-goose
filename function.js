@@ -39,11 +39,7 @@ function handleRequest(request) {
     });
   }
   const radioUrl = new URL('radio.html', import.meta.url);
-  return new Response(fetch(radioUrl), {
-    headers: {
-      "content-type": "text/html; charset=UTF-8",
-    },
-  });
+  return fetch(radioUrl);
 //   return new Response(
 //     `<body
 //       align="center"
