@@ -40,7 +40,11 @@ function handleRequest(request) {
   }
   const radioUrl = new URL('radio.html', import.meta.url);
   try {
-    return fetch(radioUrl);
+    return new Response(fetch(radioUrl),{
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+      },
+    });
   } catch (error) {
     console.error(error);
   }
@@ -67,7 +71,7 @@ function handleRequest(request) {
 //       },
 //     },
 //   );
-// }
+}
 
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
