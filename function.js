@@ -38,19 +38,22 @@ async function handleRequest(request) {
       headers: { "content-type": "text/html" },
     });
   }
-
-  if (pathname.startsWith('/radio')) {
-    const radioUrl = new URL('radio.html', import.meta.url);
-    const result = await fetch(radioUrl);
-    return new Response(result, {
-      headers: {
-        "content-type": "text/html; charset=UTF-8",
-      },
-    })
-  }
-
+  const media_source = [
+    {
+      title: '中国之声',
+      url: 'http://ngcdn001.cnr.cn/live/zgzs/index.m3u8'
+    },
+    {
+      title: '海峡之声',
+      url: 'http://ngcdn005.cnr.cn/live/zhzs/index.m3u8'
+    }
+  ]
   return new Response(
-    `<body
+    `
+    <header>
+      <meta name="referrer" content="no-referrer">
+    </header>
+    <body
       align="center"
       style="font-family: Avenir, Helvetica, Arial, sans-serif; font-size: 1.5rem;"
     >
@@ -63,11 +66,12 @@ async function handleRequest(request) {
         <a href="/json">/json</a> - responds with JSON to the request.
       </p>
       <p>
-        <a href="/radio">/radio</a> - radio
-      </p>
-      <p>
         <a href="/ip">/ip</a> - responds client ip.
       </p>
+      <figure>
+        <figcaption>Listen to the T-Rex:</figcaption>
+        <audio controls src="http://server.jvhost.net:8021/live"></audio>
+      </figure>
     </body>`,
     {
       headers: {
