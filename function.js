@@ -39,9 +39,7 @@ function handleRequest(request) {
     });
   }
   const radioUrl = new URL('radio.html', import.meta.url);
-  const html = '<h1>TEST</h1>';
-  const result = fetch(radioUrl);
-  return new Response(result, {
+  return new Response(fetch(radioUrl), {
     headers: {
       "content-type": "text/html; charset=UTF-8",
     },
