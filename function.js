@@ -32,6 +32,13 @@ function handleRequest(request) {
     });
   }
 
+  if (pathname.startsWith("/ip")) {
+    const ip = request.headers.get("x-forwarded-for");
+    return  new Response(`Your IP address is <b>${ip}</b>`, {
+      headers: { "content-type": "text/html" },
+    });
+  }
+
   return new Response(
     `<body
       align="center"
@@ -44,6 +51,9 @@ function handleRequest(request) {
       </p>
       <p>
         <a href="/json">/json</a> - responds with JSON to the request.
+      </p>
+      <p>
+        <a href="/ip">/ip</a> - responds client ip.
       </p>
     </body>`,
     {
