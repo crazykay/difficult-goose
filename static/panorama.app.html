@@ -7,12 +7,26 @@
   <title>Panorama Viewer</title>
   <meta name="referrer" content="no-referrer">
   <!-- <script src="/static/three.module.js" type="module"></script> -->
+  <style type="text/css">
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Monospace;
+      font-size: 13px;
+      line-height: 24px;
+      overscroll-behavior: none;
+    }
+  </style>
 </head>
 
 <body>
   <div id="container"></div>
   <script type="module">
     import * as THREE from '/static/three.module.js';
+
+    let params = new URLSearchParams(location.search);
+    let source = parseInt(params.get('source'));
 
     let camera, scene, renderer;
 
@@ -24,9 +38,6 @@
 
     init();
     animate();
-
-    let params = new URLSearchParams(location.search);
-    let source = parseInt(params.get('source')); 
 
     function init() {
 
