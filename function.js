@@ -66,7 +66,13 @@ async function handleRequest(request) {
           <div id="app"></div>
           <script src="static/panorama.app.js"></script>
         </body>
-      </html>`;
+      </html>
+    `;
+    return new Response(dom, {
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+      },
+    });
   }
 
   const media_source = [
