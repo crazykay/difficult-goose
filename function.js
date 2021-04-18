@@ -32,7 +32,7 @@ async function handleRequest(request) {
     });
   }
 
-  if (pathname.startsWith('/static')) {
+  if (pathname.startsWith('/radio.html')) {
     const url = new URL(pathname.slice(1), import.meta.url);
     const html = await fetch(url);
     return new Response(html,{
