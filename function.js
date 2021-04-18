@@ -32,14 +32,14 @@ async function handleRequest(request) {
     });
   }
 
-  if (pathname.startsWith('/radio.html')) {
-    console.log(pathname.slice(1),import.meta.url);
-    //  Construct a new URL to style.css by using the URL
-    //  of the script (mod.ts) as base (import.meta.url).
-    const html = new URL(pathname.slice(1), import.meta.url);
-    // Fetch the asset and return the fetched response
-    // to the client.
-    return fetch(html);
+  if (pathname.startsWith('/static')) {
+    const url = new URL(pathname.slice(1), import.meta.url);
+    const html = await fetch(url);
+    return new Response(html,{
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+      },
+    });
   }
 
   if (pathname.startsWith("/ip")) {
