@@ -38,6 +38,13 @@ async function handleRequest(request) {
       headers: { "content-type": "text/html" },
     });
   }
+  if (pathname.startsWith("/cnr5.m3u8")) {
+    return await fetch('http://ngcdn005.cnr.cn/live/zhzs/index.m3u8');
+  }
+  if (pathname.endsWith(".ts")) {
+    const url = `http://ngcdn005.cnr.cn/live/zhzs${pathname}`;
+    return await fetch(url);
+  }
   const media_source = [
     {
       title: '中国之声',
@@ -52,6 +59,7 @@ async function handleRequest(request) {
     `
     <header>
       <meta name="referrer" content="no-referrer">
+      <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     </header>
     <body
       align="center"
@@ -69,9 +77,34 @@ async function handleRequest(request) {
         <a href="/ip">/ip</a> - responds client ip.
       </p>
       <figure>
-        <figcaption>Listen to the T-Rex:</figcaption>
-        <audio controls src="http://server.jvhost.net:8021/live"></audio>
+        <figcaption>Radio</figcaption>
+        <video id="video" controls></video>
       </figure>
+      <script>
+        const video = document.getElementById('video');
+        const videoSrc = '/cnr5.m3u8';
+        if (Hls.isSupported()) {
+          var hls = new Hls();
+          hls.loadSource(videoSrc);
+          hls.attachMedia(video);
+        }
+        // hls.js is not supported on platforms that do not have Media Source
+        // Extensions (MSE) enabled.
+        //
+        // When the browser has built-in HLS support (check using canPlayType),
+        // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+        // element through the src property. This is using the built-in support
+        // of the plain video element, without using hls.js.
+        //
+        // Note: it would be more normal to wait on the 'canplay' event below however
+        // on Safari (where you are most likely to find built-in HLS support) the
+        // video.src URL must be on the user-driven white-list before a 'canplay'
+        // event will be emitted; the last video event that can be reliably
+        // listened-for when the URL is not on the white-list is 'loadedmetadata'.
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = videoSrc;
+        }
+      </script>
     </body>`,
     {
       headers: {
