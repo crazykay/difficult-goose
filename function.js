@@ -1,4 +1,6 @@
-
+const html = html => {
+  return html[0];
+}
 async function handleRequest(request) {
   const { pathname } = new URL(request.url);
 
@@ -43,6 +45,8 @@ async function handleRequest(request) {
       headers: { "content-type": "text/html" },
     });
   }
+
+  // m3u8 proxy
   if (pathname.startsWith("/cnr5.m3u8")) {
     return await fetch('http://ngcdn005.cnr.cn/live/zhzs/index.m3u8');
   }
@@ -50,6 +54,21 @@ async function handleRequest(request) {
     const url = `http://ngcdn005.cnr.cn/live/zhzs${pathname}`;
     return await fetch(url);
   }
+
+  if (pathname.startsWith('/panorama')) {
+    const dom = html`
+      <html lang="en"></html>
+        <head>
+          <meta name="referrer" content="no-referrer">
+          <script src="static/three.module.js" type="module"></script>
+        </head>
+        <body>
+          <div id="app"></div>
+          <script src="static/panorama.app.js"></script>
+        </body>
+      </html>`;
+  }
+
   const media_source = [
     {
       title: '中国之声',
