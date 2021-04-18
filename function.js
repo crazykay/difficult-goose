@@ -1,6 +1,3 @@
-const html = html => {
-  return html[0];
-}
 async function handleRequest(request) {
   const { pathname } = new URL(request.url);
 
@@ -49,8 +46,6 @@ async function handleRequest(request) {
     }
   
     const result = await fetch(url);
-    console.log('~~~~~~~~~~', result.body);
-
     return new Response(result.body, { headers: {
       "content-type": content_type,
     }});
@@ -70,30 +65,6 @@ async function handleRequest(request) {
   if (pathname.endsWith(".ts")) {
     const url = `http://ngcdn005.cnr.cn/live/zhzs${pathname}`;
     return await fetch(url);
-  }
-
-  if (pathname.startsWith('/panorama')) {
-    const dom = html`
-      <html lang="en"></html>
-        <head>
-          <meta name="referrer" content="no-referrer">
-          <script src="static/three.module.js" type="module"></script>
-        </head>
-        <body>
-          <div id="app"></div>
-          <script src="static/panorama.app.js" type="module"></script>
-          <script>
-            const app = new App();
-            app.init();
-          </script>
-        </body>
-      </html>
-    `;
-    return new Response(dom, {
-      headers: {
-        "content-type": "text/html; charset=UTF-8",
-      },
-    });
   }
 
   const media_source = [
