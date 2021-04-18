@@ -36,7 +36,24 @@ async function handleRequest(request) {
 
   if (pathname.startsWith('/static')) {
     const url = new URL(pathname.slice(1), import.meta.url);
-    return fetch(url);
+
+    let content_type;
+    if (pathname.endsWith('.html')) {
+      content_type = 'text/html';
+    } else if (pathname.endsWith('.js')) {
+      content_type = 'application/javascript';
+    } else if (pathname.endsWith('.css')) {
+      content_type = 'text/css';
+    } else {
+      content_type = 'text/plain';
+    }
+  
+    const result = await fetch(url);
+    console.log('~~~~~~~~~~', result);
+
+    return new Response(result, { headers: {
+      "content-type": content_type,
+    }});
   }
 
   if (pathname.startsWith("/ip")) {
