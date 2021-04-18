@@ -32,13 +32,9 @@ async function handleRequest(request) {
     });
   }
 
-  if (pathname.startsWith('/radio.html')) {
+  if (pathname.startsWith('/js')) {
     const url = new URL(pathname.slice(1), import.meta.url);
-    return fetch(url, {
-      headers: {
-        "content-type": "text/html; charset=UTF-8",
-      }
-    });
+    return fetch(url);
   }
 
   if (pathname.startsWith("/ip")) {
