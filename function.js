@@ -49,9 +49,9 @@ async function handleRequest(request) {
     }
   
     const result = await fetch(url);
-    console.log('~~~~~~~~~~', result);
+    console.log('~~~~~~~~~~', result.body);
 
-    return new Response(result, { headers: {
+    return new Response(result.body, { headers: {
       "content-type": content_type,
     }});
   }
