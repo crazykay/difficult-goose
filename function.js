@@ -65,6 +65,10 @@ async function handleRequest(request) {
         <body>
           <div id="app"></div>
           <script src="static/panorama.app.js" type="module"></script>
+          <script>
+            const app = new App();
+            app.init();
+          </script>
         </body>
       </html>
     `;
