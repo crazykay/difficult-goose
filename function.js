@@ -34,8 +34,7 @@ async function handleRequest(request) {
 
   if (pathname.startsWith('/radio.html')) {
     const url = new URL(pathname.slice(1), import.meta.url);
-    const html = await fetch(url);
-    return new Response(html,{
+    return new Response(fetch(url),{
       headers: {
         "content-type": "text/html; charset=UTF-8",
       },
