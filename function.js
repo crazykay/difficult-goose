@@ -32,7 +32,7 @@ async function handleRequest(request) {
     });
   }
 
-  if (pathname.endsWith('js')) {
+  if (pathname.startsWith('/static')) {
     const url = new URL(pathname.slice(1), import.meta.url);
     return fetch(url);
   }
