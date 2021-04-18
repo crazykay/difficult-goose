@@ -64,7 +64,7 @@ async function handleRequest(request) {
         </head>
         <body>
           <div id="app"></div>
-          <script src="static/panorama.app.js" type="text/javascript"></script>
+          <script src="static/panorama.app.js" type="module"></script>
         </body>
       </html>
     `;
