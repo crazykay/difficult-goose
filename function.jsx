@@ -1,3 +1,8 @@
+import { h } from "https://x.lcas.dev/preact@10.5.12/mod.js";
+import { renderToString } from "https://x.lcas.dev/preact@10.5.12/ssr.js";
+
+import Test from './page/test.jsx';
+
 async function handleRequest(request) {
   const { pathname } = new URL(request.url);
 
@@ -53,8 +58,14 @@ async function handleRequest(request) {
 
   if (pathname.startsWith("/ip")) {
     const ip = request.headers.get("x-forwarded-for");
-    return  new Response(`Your IP address is <b>${ip}</b>`, {
+    return new Response(`Your IP address is <b>${ip}</b>`, {
       headers: { "content-type": "text/html" },
+    });
+  }
+
+  if (pathname.startsWith("/test")) {
+    return new Response(renderToString(<Test />), {
+      headers: { "content-type": "text/html; charset=utf-8" },
     });
   }
 
