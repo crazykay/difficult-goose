@@ -9,10 +9,10 @@ const fnFm = async (request, params) => {
   let m3u8_url;
   switch (station_name) {
     case 'cnr1':
-      m3u8_url = 'applicationhttp://ngcdn001.cnr.cn/live/zhzs/index.m3u8';
+      m3u8_url = 'http://ngcdn001.cnr.cn/live/zhzs/index.m3u8';
       break;
     case 'cnr5':
-      m3u8_url = 'applicationhttp://ngcdn005.cnr.cn/live/zhzs/index.m3u8';
+      m3u8_url = 'http://ngcdn005.cnr.cn/live/zhzs/index.m3u8';
       break;
     default:
       break;
@@ -21,8 +21,21 @@ const fnFm = async (request, params) => {
 }
 // async
 const fnTs = async (request, params) => {
-  const url = `http://ngcdn005.cnr.cn/live/zhzs${params.pathname}.ts`;
-  return await fetch(url);
+  const station_name = params.station_name;
+  const pathname = params.pathname;
+  let station_url;
+  switch (station_name) {
+    case 'cnr1':
+      station_url = `http://ngcdn001.cnr.cn/live/zgzs/${pathname}.ts`;
+      break;
+    case 'cnr5':
+      station_url = `http://ngcdn005.cnr.cn/live/zhzs/${pathname}.ts`;
+      break;
+    default:
+      break;
+  }
+  console.log(station_url);
+  return await fetch(station_url);
 }
 
 serve({
@@ -31,9 +44,26 @@ serve({
       headers: { "content-type": "text/html; charset=utf-8" },
     });
   },
-  '/:pathname.ts': fnTs,
-  '/fm/:station_name': fnFm,
-  '/static/js/:filename': serveStatic("static/js", { baseUrl: import.meta.url }),
-  '/static/css/:filename': serveStatic("static/css", { baseUrl: import.meta.url }),
+  '/fm/:station_name/:pathname.ts': fnTs,
+  '/fm/:station_name/index.m3u8': fnFm,
+  '/static/radio.webmanifest':  serveStatic("static/radio.webmanifest", { baseUrl: import.meta.url }),
+  '/static/js/:filename': serveStatic("static/js", {
+    baseUrl: import.meta.url,
+    intervene: (request, response) => {
+      response.headers.set("content-type", "text/javascript; charset=utf-8");
+      return response;
+    },
+  }),
+  '/static/css/:filename': serveStatic("static/css", {
+    baseUrl: import.meta.url,
+    intervene: (request, response) => {
+      response.headers.set("content-type", "text/css; charset=utf-8");
+      return response;
+    },
+  }),
+  '/static/img/:filename': async (request, params) => {
+    const image = new URL(`static/img/${params.filename}`, import.meta.url);
+    return fetch(image);
+  },
   404: () => new Response("not found"),
 });

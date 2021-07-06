@@ -1,0 +1,16 @@
+{
+  "name": "FM Radio Player PWA",
+  "short_name": "Radio",
+  "description": "Progressive Web App that play FM radio",
+  "icons": [
+    {
+      "src": "static/img/radio-icon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "fullscreen",
+  "theme_color": "#B12A34",
+  "background_color": "#B12A34"
+}

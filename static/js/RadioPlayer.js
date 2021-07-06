@@ -2,16 +2,16 @@ class RadioPlayer extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({mode: 'open'});
-    console.log(shadow);
+    this.station_name = 'cnr1';
     const videoElement = document.createElement('video');
     videoElement.setAttribute('id', 'hsl');
-
+    videoElement.setAttribute('controls', 'controls');
     const scriptElement = document.createElement('script');
     scriptElement.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
     scriptElement.onload = () => {
       if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource('/fm/cnr1');
+        hls.loadSource(`/fm/${this.station_name}/index.m3u8?${Date.now()}`);
         hls.attachMedia(videoElement);
       }
       // hls.js is not supported on platforms that do not have Media Source
@@ -28,7 +28,7 @@ class RadioPlayer extends HTMLElement {
       // event will be emitted; the last video event that can be reliably
       // listened-for when the URL is not on the white-list is 'loadedmetadata'.
       else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-        videoElement.src = '/fm/cnr1';
+        videoElement.src = `/fm/${this.station_name}/index.m3u8?${Date.now()}`;
       }
     }
     shadow.appendChild(scriptElement);
